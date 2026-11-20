@@ -1,0 +1,33 @@
+import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
+import { NewProductForm } from './NewProductForm'
+import { SellerOfProd } from './SellerOfProd'
+import { UserReactions } from './UserReactions'
+
+export const ProductsList = () => {
+  const products = useSelector((state) => state.products)
+
+  const dispProducts = products.map((product) => (
+    <div key={product.id} className="product-excerpt">
+      <h3>{product.title}</h3>
+      <SellerOfProd sellerId={product.seller} />
+      <p>{product.desc.substring(0, 100)}</p>
+      <p>Price: {product.price}</p>
+      <p>Amount: {product.amount}</p>
+      <UserReactions product={product} />
+      <Link to={`/products/${product.id}`} className="link-btn">
+        view
+      </Link>
+    </div>
+  ))
+
+  return (
+    <div>
+      <NewProductForm />
+      <div className="products-list">
+        <h2>Products</h2>
+        {dispProducts}
+      </div>
+    </div>
+  )
+}
